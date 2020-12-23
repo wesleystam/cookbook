@@ -4,7 +4,8 @@ require:
 
 AllCops:
   Exclude:
-    - 'db/**/*'
+    - 'db/migrate/*'
+    - 'db/schema.rb'
     - 'script/**/*'
     - 'bin/**/*'
   NewCops: enable
@@ -12,5 +13,8 @@ AllCops:
 
 Style/Documentation:
   Enabled: false
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*_spec.rb'
 Metrics/MethodLength:
   Max: 25
