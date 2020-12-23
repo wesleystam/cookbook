@@ -19,5 +19,6 @@ module Types
 
     field :course, CourseType, null: true
     field :season, SeasonType, null: true
+    field :recipe_photos, [RecipePhotoType], null: false, method: :ordered_recipe_photos
   end
 end
