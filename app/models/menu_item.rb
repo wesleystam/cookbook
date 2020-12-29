@@ -2,4 +2,5 @@
 
 class MenuItem < ApplicationRecord
   belongs_to :recipe
+  validates :day, presence: true
 end
