@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_23_122533) do
+ActiveRecord::Schema.define(version: 2020_12_29_114941) do
 
   create_table "active_storage_attachments", charset: "utf8mb4", force: :cascade do |t|
     t.string "name", null: false
@@ -44,6 +44,15 @@ ActiveRecord::Schema.define(version: 2020_12_23_122533) do
     t.string "name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "menu_items", charset: "utf8mb4", force: :cascade do |t|
+    t.date "day"
+    t.integer "position", default: 0
+    t.bigint "recipe_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["recipe_id"], name: "index_menu_items_on_recipe_id"
   end
 
   create_table "recipe_photos", charset: "utf8mb4", force: :cascade do |t|
@@ -80,6 +89,7 @@ ActiveRecord::Schema.define(version: 2020_12_23_122533) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "menu_items", "recipes"
   add_foreign_key "recipe_photos", "recipes"
   add_foreign_key "recipes", "courses"
   add_foreign_key "recipes", "seasons"
