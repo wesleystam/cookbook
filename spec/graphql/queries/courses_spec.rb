@@ -7,7 +7,7 @@ module Queries
     it 'returns all courses' do
       query = <<~GQL
         query {
-          courses { id }
+          courses { databaseId }
         }
       GQL
 
@@ -15,9 +15,9 @@ module Queries
       response = query(query)
 
       expect(response.data['courses']).to include(
-        { 'id' => courses.first.id.to_s },
-        { 'id' => courses.second.id.to_s },
-        { 'id' => courses.third.id.to_s }
+        { 'databaseId' => courses.first.id },
+        { 'databaseId' => courses.second.id },
+        { 'databaseId' => courses.third.id }
       )
     end
   end

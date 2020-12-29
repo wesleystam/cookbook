@@ -9,7 +9,7 @@ module Queries
       <<~GQL
         query {
           recipe(id: "#{recipe.id}") {
-            id
+            databaseId
             recipePhotos { position }
           }
         }
@@ -20,7 +20,7 @@ module Queries
 
     it 'return the recipe' do
       expect(subject).to include(
-        { 'id' => recipe.id.to_s }
+        { 'databaseId' => recipe.id }
       )
     end
   end

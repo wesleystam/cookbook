@@ -2,7 +2,10 @@
 
 module Types
   class RecipePhotoType < Types::BaseObject
-    field :id, ID, null: false
+    implements GraphQL::Types::Relay::Node
+    global_id_field :id
+    field :database_id, Int, null: false, method: :id
+
     field :url, String, null: false
     field :position, Integer, null: true
     field :recipe_id, Integer, null: false

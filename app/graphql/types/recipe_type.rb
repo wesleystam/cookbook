@@ -2,7 +2,10 @@
 
 module Types
   class RecipeType < Types::BaseObject
-    field :id, ID, null: false
+    implements GraphQL::Types::Relay::Node
+    global_id_field :id
+    field :database_id, Int, null: false, method: :id
+
     field :name, String, null: false
     field :characteristic, String, null: true
     field :comment, String, null: true
