@@ -7,4 +7,6 @@ class Recipe < ApplicationRecord
   has_many :ordered_recipe_photos, -> { order(:position) }, class_name: 'RecipePhoto', inverse_of: :recipe
 
   validates :name, presence: true
+
+  accepts_nested_attributes_for :recipe_photos, allow_destroy: true
 end
