@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { RelayEnvironmentProvider } from 'react-relay/hooks';
-import './index.css';
+import './index.scss';
 
 import RelayEnvironment from './RelayEnvironment';
 import routes from './routes';

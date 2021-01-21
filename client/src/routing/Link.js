@@ -1,4 +1,4 @@
-import React, { useCallback, useContext }  from 'react';
+import { useCallback, useContext }  from 'react';
 import PropTypes from 'prop-types';
 import RoutingContext from './RoutingContext';
 import { matchPath } from 'react-router';
