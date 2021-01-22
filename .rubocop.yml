@@ -8,11 +8,15 @@ AllCops:
     - 'db/schema.rb'
     - 'script/**/*'
     - 'bin/**/*'
+    - 'client/**/*'
   NewCops: enable
   SuggestExtensions: false
 
 Style/Documentation:
   Enabled: false
+Layout/LineLength:
+  Exclude:
+    - 'db/seeds.rb'
 Metrics/BlockLength:
   Exclude:
     - 'spec/**/*_spec.rb'
