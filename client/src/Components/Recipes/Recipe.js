@@ -11,7 +11,7 @@ const Recipe = ({ recipe }) => {
       <Card className="h-100">
         {photo && <img alt={recipe.name} src={photo.url} />}
         <Card.Body>
-          <Link to={`/recipes/${recipe.databaseId}`}>
+          <Link to={`/recepten/${recipe.databaseId}`}>
             <Card.Title>{recipe.name}</Card.Title>
             <Card.Text>Tijd: {recipe.cookingTime} minuten</Card.Text>
             <Card.Text>Gang: {recipe.course.name}</Card.Text>

@@ -74,7 +74,7 @@ const Recipes = (props) => {
         <InputGroup className="mb-3">
           <Form.Control name="query" onChange={onChange} placeholder="Waar heb je trek in?" value={state.query} />
           <InputGroup.Append>
-            <Link class="btn btn-info" to="/recipten/new">Nieuw recipt</Link>
+            <Link class="btn btn-info" to="/recepten/nieuw">Nieuw recipt</Link>
           </InputGroup.Append>
         </InputGroup>
         <Row className="mb-3">

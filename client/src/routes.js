@@ -17,7 +17,39 @@ const routes = [
             recipesQuery: loadQuery(
               RelayEnvironment,
               RecipesQuery,
-              { query: '' },
+              { },
+              { fetchPolicy: 'store-or-network' },
+            ),
+          }
+        },
+      },
+      {
+        path: '/recepten/nieuw',
+        exact: false,
+        component: JSResource('NewRecipe', () => import('./Components/NewRecipe')),
+        prepare: () => { 
+          const NewRecipeQuery = require('./Components/NewRecipe/__generated__/NewRecipeQuery.graphql');
+          return {
+            newRecipeQuery: loadQuery(
+              RelayEnvironment,
+              NewRecipeQuery,
+              {},
+              { fetchPolicy: 'store-or-network' },
+            ),
+          }
+        },
+      },
+      {
+        path: '/recepten/:id',
+        exact: false,
+        component: JSResource('Recipe', () => import('./Components/Recipe')),
+        prepare: (params) => { 
+          const RecipeQuery = require('./Components/Recipe/__generated__/RecipeQuery.graphql');
+          return {
+            recipeQuery: loadQuery(
+              RelayEnvironment,
+              RecipeQuery,
+              { id: params.id },
               { fetchPolicy: 'store-or-network' },
             ),
           }
