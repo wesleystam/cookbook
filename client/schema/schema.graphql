@@ -225,6 +225,10 @@ type RecipePhoto implements Node {
   recipeId: Int!
   updatedAt: ISO8601DateTime!
   url: String!
+  urlLarge1x: String!
+  urlLarge2x: String!
+  urlThumb1x: String!
+  urlThumb2x: String!
 }
 
 input RecipePhotosAttributes {

@@ -14,8 +14,8 @@ module Mutations
       argument :preparation, String, required: false
       argument :vegetarian, Boolean, required: false
       argument :cooking_time, Integer, required: false
-      argument :course_id, Integer, required: false
-      argument :season_id, Integer, required: false
+      argument :course_id, ID, required: false
+      argument :season_id, ID, required: false
       argument :recipe_photos, [Types::RecipePhotosAttributesType], required: false
 
       def resolve(params)

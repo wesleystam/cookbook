@@ -3,7 +3,12 @@ import { usePreloadedQuery } from 'react-relay/hooks';
 import graphql from 'babel-plugin-relay/macro';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheck, faChevronLeft, faPen, faTimes } from '@fortawesome/pro-regular-svg-icons';
+import {
+  faCheck,
+  faChevronLeft,
+  faPen,
+  faTimes,
+} from '@fortawesome/pro-regular-svg-icons';
 
 import { Link } from '../../routing/Link';
 
@@ -12,21 +17,43 @@ const Recipe = (props) => {
     graphql`
       query RecipeQuery($id: ID!) {
         recipe(id: $id) {
-          name characteristic vegetarian cookingTime comment bookNumber pageNumber ingredients preparation
-          course { name }
-          season { name }
-          recipePhotos { id url }
+          name
+          characteristic
+          vegetarian
+          cookingTime
+          comment
+          bookNumber
+          pageNumber
+          ingredients
+          preparation
+          course {
+            name
+          }
+          season {
+            name
+          }
+          recipePhotos {
+            id
+            urlLarge1x
+            urlLarge2x
+          }
         }
       }
     `,
-    props.prepared.recipeQuery,
+    props.prepared.recipeQuery
   );
 
   const renderPhoto = (photo) => (
-    <img key={photo.id} alt={recipe.name} className="img-fluid" srcSet={`${photo.urlLarge1x} 1x, ${photo.urlLarge2x} 2x`} src={photo.urlLarge1x} />
+    <img
+      alt="recipe"
+      key={photo.id}
+      className="img-fluid"
+      srcSet={`${photo.urlLarge1x} 1x, ${photo.urlLarge2x} 2x`}
+      src={photo.urlLarge1x}
+    />
   );
- 
-  return(
+
+  return (
     <>
       <div className="mt-5">
         <Link className="mr-5" to="/">
@@ -44,7 +71,9 @@ const Recipe = (props) => {
         <dt className="col-3">Seizoen</dt>
         <dd className="col-9">{recipe.season ? recipe.season.name : '-'}</dd>
         <dt className="col-3">Extra</dt>
-        <dd className="col-9">{recipe.characteristic ? recipe.characteristic : '-'}</dd>
+        <dd className="col-9">
+          {recipe.characteristic ? recipe.characteristic : '-'}
+        </dd>
         <dt className="col-3">Vegatarisch</dt>
         <dd className="col-9">
           <FontAwesomeIcon icon={recipe.vegetarian ? faCheck : faTimes} />
@@ -53,7 +82,9 @@ const Recipe = (props) => {
         <dd className="col-9">{recipe.cookingTime} minuten</dd>
         <dt className="col-3">Opmerking</dt>
         <dd className="col-9 wrap">
-          {recipe.comment === null || recipe.comment === '' ? '-' : recipe.comment}
+          {recipe.comment === null || recipe.comment === ''
+            ? '-'
+            : recipe.comment}
         </dd>
         <dt className="col-3">Boeknummer</dt>
         <dd className="col-9">{recipe.bookNumber}</dd>

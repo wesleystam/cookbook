@@ -6,6 +6,6 @@ class RecipePhoto < ApplicationRecord
   has_one_attached :photo
 
   def signed_id=(value)
-    file.attach(value)
+    photo.attach(value)
   end
 end

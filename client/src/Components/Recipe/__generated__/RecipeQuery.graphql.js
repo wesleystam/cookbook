@@ -30,7 +30,8 @@ export type RecipeQueryResponse = {|
     |},
     +recipePhotos: $ReadOnlyArray<{|
       +id: string,
-      +url: string,
+      +urlLarge1x: string,
+      +urlLarge2x: string,
     |}>,
   |}
 |};
@@ -65,7 +66,8 @@ query RecipeQuery(
     }
     recipePhotos {
       id
-      url
+      urlLarge1x
+      urlLarge2x
     }
     id
   }
@@ -173,7 +175,14 @@ v13 = {
       "alias": null,
       "args": null,
       "kind": "ScalarField",
-      "name": "url",
+      "name": "urlLarge1x",
+      "storageKey": null
+    },
+    {
+      "alias": null,
+      "args": null,
+      "kind": "ScalarField",
+      "name": "urlLarge2x",
       "storageKey": null
     }
   ],
@@ -286,16 +295,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "ffde02a437c0836dbdb433254dc5aa59",
+    "cacheID": "838baa15d2ce6b4da41c9a1106618ef5",
     "id": null,
     "metadata": {},
     "name": "RecipeQuery",
     "operationKind": "query",
-    "text": "query RecipeQuery(\n  $id: ID!\n) {\n  recipe(id: $id) {\n    name\n    characteristic\n    vegetarian\n    cookingTime\n    comment\n    bookNumber\n    pageNumber\n    ingredients\n    preparation\n    course {\n      name\n      id\n    }\n    season {\n      name\n      id\n    }\n    recipePhotos {\n      id\n      url\n    }\n    id\n  }\n}\n"
+    "text": "query RecipeQuery(\n  $id: ID!\n) {\n  recipe(id: $id) {\n    name\n    characteristic\n    vegetarian\n    cookingTime\n    comment\n    bookNumber\n    pageNumber\n    ingredients\n    preparation\n    course {\n      name\n      id\n    }\n    season {\n      name\n      id\n    }\n    recipePhotos {\n      id\n      urlLarge1x\n      urlLarge2x\n    }\n    id\n  }\n}\n"
   }
 };
 })();
 // prettier-ignore
-(node/*: any*/).hash = '6838e6ace381be0900ab1b2476c84b6b';
+(node/*: any*/).hash = 'd20787b89fcc4b37bac22a2b7b0011d2';
 
 module.exports = node;

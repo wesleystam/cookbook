@@ -1,7 +1,7 @@
 {
   "name": "client",
   "version": "0.1.0",
-  "proxy": "http://localhost:3000",
+  "proxy": "http://cookbook.test",
   "private": true,
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.34",
@@ -22,10 +22,11 @@
     "react-router-config": "^5.1.1",
     "react-scripts": "4.0.1",
     "relay-runtime": "^10.1.2",
+    "spark-md5": "^3.0.1",
     "web-vitals": "^0.2.4"
   },
   "scripts": {
-    "start": "PORT=3001 yarn run relay; concurrently --kill-others --names \"react-scripts,relay\" \"react-scripts start\" \"yarn run relay --watch\"",
+    "start": "yarn run relay; concurrently --kill-others --names \"react-scripts,relay\" \"react-scripts start\" \"yarn run relay --watch\"",
     "build": "yarn run relay && react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
@@ -78,6 +79,7 @@
     "concurrently": "^5.3.0",
     "get-graphql-schema": "^2.1.2",
     "graphql": "^15.4.0",
+    "prettier": "^2.2.1",
     "relay-compiler": "^10.1.2"
   }
 }

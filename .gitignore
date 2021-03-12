@@ -12,6 +12,8 @@
 /tmp/*
 !/log/.keep
 !/tmp/.keep
+client/node_modules
+client/build
 
 # Ignore pidfiles, but keep the directory.
 /tmp/pids/*

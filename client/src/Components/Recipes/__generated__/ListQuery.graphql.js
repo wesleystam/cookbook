@@ -29,7 +29,8 @@ export type ListQueryResponse = {|
           +name: ?string
         |},
         +recipePhotos: $ReadOnlyArray<{|
-          +url: string
+          +urlThumb1x: string,
+          +urlThumb2x: string,
         |}>,
       |},
     |}>
@@ -63,7 +64,8 @@ query ListQuery(
           id
         }
         recipePhotos {
-          url
+          urlThumb1x
+          urlThumb2x
           id
         }
         id
@@ -170,24 +172,31 @@ v16 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "url",
+  "name": "urlThumb1x",
   "storageKey": null
 },
 v17 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "__typename",
+  "name": "urlThumb2x",
   "storageKey": null
 },
 v18 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "cursor",
+  "name": "__typename",
   "storageKey": null
 },
 v19 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "cursor",
+  "storageKey": null
+},
+v20 = {
   "kind": "ClientExtension",
   "selections": [
     {
@@ -199,7 +208,7 @@ v19 = {
     }
   ]
 },
-v20 = {
+v21 = {
   "alias": null,
   "args": null,
   "concreteType": "PageInfo",
@@ -224,7 +233,7 @@ v20 = {
   ],
   "storageKey": null
 },
-v21 = [
+v22 = [
   {
     "kind": "Variable",
     "name": "after",
@@ -242,7 +251,7 @@ v21 = [
   (v11/*: any*/),
   (v12/*: any*/)
 ],
-v22 = {
+v23 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
@@ -318,20 +327,21 @@ return {
                     "name": "recipePhotos",
                     "plural": true,
                     "selections": [
-                      (v16/*: any*/)
+                      (v16/*: any*/),
+                      (v17/*: any*/)
                     ],
                     "storageKey": null
                   },
-                  (v17/*: any*/)
+                  (v18/*: any*/)
                 ],
                 "storageKey": null
               },
-              (v18/*: any*/),
-              (v19/*: any*/)
+              (v19/*: any*/),
+              (v20/*: any*/)
             ],
             "storageKey": null
           },
-          (v20/*: any*/)
+          (v21/*: any*/)
         ],
         "storageKey": null
       }
@@ -355,7 +365,7 @@ return {
     "selections": [
       {
         "alias": null,
-        "args": (v21/*: any*/),
+        "args": (v22/*: any*/),
         "concreteType": "RecipeConnection",
         "kind": "LinkedField",
         "name": "recipes",
@@ -389,7 +399,7 @@ return {
                     "plural": false,
                     "selections": [
                       (v14/*: any*/),
-                      (v22/*: any*/)
+                      (v23/*: any*/)
                     ],
                     "storageKey": null
                   },
@@ -402,27 +412,28 @@ return {
                     "plural": true,
                     "selections": [
                       (v16/*: any*/),
-                      (v22/*: any*/)
+                      (v17/*: any*/),
+                      (v23/*: any*/)
                     ],
                     "storageKey": null
                   },
-                  (v22/*: any*/),
-                  (v17/*: any*/)
+                  (v23/*: any*/),
+                  (v18/*: any*/)
                 ],
                 "storageKey": null
               },
-              (v18/*: any*/),
-              (v19/*: any*/)
+              (v19/*: any*/),
+              (v20/*: any*/)
             ],
             "storageKey": null
           },
-          (v20/*: any*/)
+          (v21/*: any*/)
         ],
         "storageKey": null
       },
       {
         "alias": null,
-        "args": (v21/*: any*/),
+        "args": (v22/*: any*/),
         "filters": [
           "query",
           "sortBy",
@@ -439,7 +450,7 @@ return {
     ]
   },
   "params": {
-    "cacheID": "a16c24ffc4a6b153f274439659acfb0e",
+    "cacheID": "b89ad7ea877d74ed258d1e3599291d04",
     "id": null,
     "metadata": {
       "connection": [
@@ -455,11 +466,11 @@ return {
     },
     "name": "ListQuery",
     "operationKind": "query",
-    "text": "query ListQuery(\n  $cursor: String\n  $query: String\n  $sortBy: String\n  $sortDirection: String\n  $vegetarian: Boolean\n  $courseId: ID\n  $seasonId: ID\n) {\n  recipes(after: $cursor, first: 52, query: $query, sortBy: $sortBy, sortDirection: $sortDirection, vegetarian: $vegetarian, seasonId: $seasonId, courseId: $courseId) {\n    edges {\n      node {\n        databaseId\n        name\n        cookingTime\n        course {\n          name\n          id\n        }\n        recipePhotos {\n          url\n          id\n        }\n        id\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n"
+    "text": "query ListQuery(\n  $cursor: String\n  $query: String\n  $sortBy: String\n  $sortDirection: String\n  $vegetarian: Boolean\n  $courseId: ID\n  $seasonId: ID\n) {\n  recipes(after: $cursor, first: 52, query: $query, sortBy: $sortBy, sortDirection: $sortDirection, vegetarian: $vegetarian, seasonId: $seasonId, courseId: $courseId) {\n    edges {\n      node {\n        databaseId\n        name\n        cookingTime\n        course {\n          name\n          id\n        }\n        recipePhotos {\n          urlThumb1x\n          urlThumb2x\n          id\n        }\n        id\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n"
   }
 };
 })();
 // prettier-ignore
-(node/*: any*/).hash = '6dc44c2f7056d120c09b07703f036792';
+(node/*: any*/).hash = '75ea93ec1bd126d888afc65a6cf79e1c';
 
 module.exports = node;
