@@ -15,8 +15,8 @@ module Types
     field :cooking_time, Integer, null: true
     field :book_number, Integer, null: true
     field :page_number, Integer, null: true
-    field :course_id, Integer, null: false
-    field :season_id, Integer, null: false
+    field :course_id, ID, null: true
+    field :season_id, ID, null: true
     field :created_at, GraphQL::Types::ISO8601DateTime, null: false
     field :updated_at, GraphQL::Types::ISO8601DateTime, null: false
 

@@ -18,6 +18,7 @@ export type RecipeQueryResponse = {|
     +vegetarian: ?boolean,
     +cookingTime: ?number,
     +comment: ?string,
+    +databaseId: number,
     +bookNumber: ?number,
     +pageNumber: ?number,
     +ingredients: ?string,
@@ -52,6 +53,7 @@ query RecipeQuery(
     vegetarian
     cookingTime
     comment
+    databaseId
     bookNumber
     pageNumber
     ingredients
@@ -128,41 +130,48 @@ v7 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "bookNumber",
+  "name": "databaseId",
   "storageKey": null
 },
 v8 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "pageNumber",
+  "name": "bookNumber",
   "storageKey": null
 },
 v9 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "ingredients",
+  "name": "pageNumber",
   "storageKey": null
 },
 v10 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
+  "name": "ingredients",
+  "storageKey": null
+},
+v11 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
   "name": "preparation",
   "storageKey": null
 },
-v11 = [
+v12 = [
   (v2/*: any*/)
 ],
-v12 = {
+v13 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "id",
   "storageKey": null
 },
-v13 = {
+v14 = {
   "alias": null,
   "args": null,
   "concreteType": "RecipePhoto",
@@ -170,7 +179,7 @@ v13 = {
   "name": "recipePhotos",
   "plural": true,
   "selections": [
-    (v12/*: any*/),
+    (v13/*: any*/),
     {
       "alias": null,
       "args": null,
@@ -188,9 +197,9 @@ v13 = {
   ],
   "storageKey": null
 },
-v14 = [
+v15 = [
   (v2/*: any*/),
-  (v12/*: any*/)
+  (v13/*: any*/)
 ];
 return {
   "fragment": {
@@ -216,6 +225,7 @@ return {
           (v8/*: any*/),
           (v9/*: any*/),
           (v10/*: any*/),
+          (v11/*: any*/),
           {
             "alias": null,
             "args": null,
@@ -223,7 +233,7 @@ return {
             "kind": "LinkedField",
             "name": "course",
             "plural": false,
-            "selections": (v11/*: any*/),
+            "selections": (v12/*: any*/),
             "storageKey": null
           },
           {
@@ -233,10 +243,10 @@ return {
             "kind": "LinkedField",
             "name": "season",
             "plural": false,
-            "selections": (v11/*: any*/),
+            "selections": (v12/*: any*/),
             "storageKey": null
           },
-          (v13/*: any*/)
+          (v14/*: any*/)
         ],
         "storageKey": null
       }
@@ -267,6 +277,7 @@ return {
           (v8/*: any*/),
           (v9/*: any*/),
           (v10/*: any*/),
+          (v11/*: any*/),
           {
             "alias": null,
             "args": null,
@@ -274,7 +285,7 @@ return {
             "kind": "LinkedField",
             "name": "course",
             "plural": false,
-            "selections": (v14/*: any*/),
+            "selections": (v15/*: any*/),
             "storageKey": null
           },
           {
@@ -284,27 +295,27 @@ return {
             "kind": "LinkedField",
             "name": "season",
             "plural": false,
-            "selections": (v14/*: any*/),
+            "selections": (v15/*: any*/),
             "storageKey": null
           },
-          (v13/*: any*/),
-          (v12/*: any*/)
+          (v14/*: any*/),
+          (v13/*: any*/)
         ],
         "storageKey": null
       }
     ]
   },
   "params": {
-    "cacheID": "838baa15d2ce6b4da41c9a1106618ef5",
+    "cacheID": "c54aa329cd811401072de3f548e2816d",
     "id": null,
     "metadata": {},
     "name": "RecipeQuery",
     "operationKind": "query",
-    "text": "query RecipeQuery(\n  $id: ID!\n) {\n  recipe(id: $id) {\n    name\n    characteristic\n    vegetarian\n    cookingTime\n    comment\n    bookNumber\n    pageNumber\n    ingredients\n    preparation\n    course {\n      name\n      id\n    }\n    season {\n      name\n      id\n    }\n    recipePhotos {\n      id\n      urlLarge1x\n      urlLarge2x\n    }\n    id\n  }\n}\n"
+    "text": "query RecipeQuery(\n  $id: ID!\n) {\n  recipe(id: $id) {\n    name\n    characteristic\n    vegetarian\n    cookingTime\n    comment\n    databaseId\n    bookNumber\n    pageNumber\n    ingredients\n    preparation\n    course {\n      name\n      id\n    }\n    season {\n      name\n      id\n    }\n    recipePhotos {\n      id\n      urlLarge1x\n      urlLarge2x\n    }\n    id\n  }\n}\n"
   }
 };
 })();
 // prettier-ignore
-(node/*: any*/).hash = 'd20787b89fcc4b37bac22a2b7b0011d2';
+(node/*: any*/).hash = 'd76799f3b40fffe67dd36a9892769eb6';
 
 module.exports = node;

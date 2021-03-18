@@ -6,7 +6,7 @@ module Mutations
       field :recipe, Types::RecipeType, null: true
       field :errors, [Types::ValidationErrorType], null: false
 
-      argument :id, ID, required: true
+      argument :database_id, Integer, required: true
       argument :name, String, required: false
       argument :characteristic, String, required: false
       argument :comment, String, required: false
@@ -16,11 +16,10 @@ module Mutations
       argument :cooking_time, Integer, required: false
       argument :course_id, ID, required: false
       argument :season_id, ID, required: false
-      argument :recipe_photos, [Types::RecipePhotosAttributesType], required: false
+      argument :recipe_photos, [Types::RecipePhotosAttributesType], required: false, as: :recipe_photos_attributes
 
       def resolve(params)
-        Helper.convert_to_attributes(params, :recipe_photos) if params[:recipe_photos].present?
-        recipe = Recipe.find(params.delete(:id))
+        recipe = Recipe.find(params.delete(:database_id))
 
         if recipe.update(params)
           { recipe: recipe, errors: [] }

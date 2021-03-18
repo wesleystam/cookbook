@@ -15,7 +15,7 @@ const Photo = ({ onChange, photo }) => {
   useEffect(() => {
     const onSuccess = (file, response) => {
       setProgress(100);
-      onChange({ signedId: response.signed_id });
+      onChange({ position: photo.position, signedId: response.signed_id });
     };
     uploadFile(photo.file, { onProgress, onSuccess });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -32,7 +32,8 @@ const Photo = ({ onChange, photo }) => {
 Photo.propTypes = {
   onChange: PropTypes.func.isRequired,
   photo: PropTypes.shape({
-    file: PropTypes.object,
+    file: PropTypes.object.isRequired,
+    position: PropTypes.number.isRequired,
   }).isRequired,
 };
 

@@ -22,6 +22,7 @@ const Recipe = (props) => {
           vegetarian
           cookingTime
           comment
+          databaseId
           bookNumber
           pageNumber
           ingredients
@@ -59,7 +60,7 @@ const Recipe = (props) => {
         <Link className="mr-5" to="/">
           <FontAwesomeIcon icon={faChevronLeft} /> Terug
         </Link>
-        <Link to={`/recepten/${recipe.id}/edit`}>
+        <Link to={`/recepten/${recipe.databaseId}/wijzigen`}>
           <FontAwesomeIcon icon={faPen} /> Wijzigen
         </Link>
       </div>

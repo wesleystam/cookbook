@@ -8,7 +8,8 @@
 
 /*::
 import type { ConcreteRequest } from 'relay-runtime';
-export type CreateRecipeInput = {|
+export type UpdateRecipeInput = {|
+  databaseId: number,
   name?: ?string,
   characteristic?: ?string,
   comment?: ?string,
@@ -27,13 +28,19 @@ export type RecipePhotosAttributes = {|
   position?: ?number,
   signedId?: ?string,
 |};
-export type NewRecipeMutationVariables = {|
-  input: CreateRecipeInput
+export type EditRecipeMutationVariables = {|
+  input: UpdateRecipeInput
 |};
-export type NewRecipeMutationResponse = {|
-  +createRecipe: ?{|
+export type EditRecipeMutationResponse = {|
+  +updateRecipe: ?{|
     +recipe: ?{|
-      +databaseId: number
+      +databaseId: number,
+      +recipePhotos: $ReadOnlyArray<{|
+        +databaseId: number,
+        +position: ?number,
+        +urlThumb1x: string,
+        +urlThumb2x: string,
+      |}>,
     |},
     +errors: $ReadOnlyArray<{|
       +field: string,
@@ -41,20 +48,27 @@ export type NewRecipeMutationResponse = {|
     |}>,
   |}
 |};
-export type NewRecipeMutation = {|
-  variables: NewRecipeMutationVariables,
-  response: NewRecipeMutationResponse,
+export type EditRecipeMutation = {|
+  variables: EditRecipeMutationVariables,
+  response: EditRecipeMutationResponse,
 |};
 */
 
 
 /*
-mutation NewRecipeMutation(
-  $input: CreateRecipeInput!
+mutation EditRecipeMutation(
+  $input: UpdateRecipeInput!
 ) {
-  createRecipe(input: $input) {
+  updateRecipe(input: $input) {
     recipe {
       databaseId
+      recipePhotos {
+        databaseId
+        position
+        urlThumb1x
+        urlThumb2x
+        id
+      }
       id
     }
     errors {
@@ -90,6 +104,27 @@ v2 = {
 v3 = {
   "alias": null,
   "args": null,
+  "kind": "ScalarField",
+  "name": "position",
+  "storageKey": null
+},
+v4 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "urlThumb1x",
+  "storageKey": null
+},
+v5 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "urlThumb2x",
+  "storageKey": null
+},
+v6 = {
+  "alias": null,
+  "args": null,
   "concreteType": "ValidationError",
   "kind": "LinkedField",
   "name": "errors",
@@ -111,54 +146,27 @@ v3 = {
     }
   ],
   "storageKey": null
+},
+v7 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "id",
+  "storageKey": null
 };
 return {
   "fragment": {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Fragment",
     "metadata": null,
-    "name": "NewRecipeMutation",
+    "name": "EditRecipeMutation",
     "selections": [
       {
         "alias": null,
         "args": (v1/*: any*/),
-        "concreteType": "CreateRecipePayload",
+        "concreteType": "UpdateRecipePayload",
         "kind": "LinkedField",
-        "name": "createRecipe",
-        "plural": false,
-        "selections": [
-          {
-            "alias": null,
-            "args": null,
-            "concreteType": "Recipe",
-            "kind": "LinkedField",
-            "name": "recipe",
-            "plural": false,
-            "selections": [
-              (v2/*: any*/)
-            ],
-            "storageKey": null
-          },
-          (v3/*: any*/)
-        ],
-        "storageKey": null
-      }
-    ],
-    "type": "Mutation",
-    "abstractKey": null
-  },
-  "kind": "Request",
-  "operation": {
-    "argumentDefinitions": (v0/*: any*/),
-    "kind": "Operation",
-    "name": "NewRecipeMutation",
-    "selections": [
-      {
-        "alias": null,
-        "args": (v1/*: any*/),
-        "concreteType": "CreateRecipePayload",
-        "kind": "LinkedField",
-        "name": "createRecipe",
+        "name": "updateRecipe",
         "plural": false,
         "selections": [
           {
@@ -173,30 +181,89 @@ return {
               {
                 "alias": null,
                 "args": null,
-                "kind": "ScalarField",
-                "name": "id",
+                "concreteType": "RecipePhoto",
+                "kind": "LinkedField",
+                "name": "recipePhotos",
+                "plural": true,
+                "selections": [
+                  (v2/*: any*/),
+                  (v3/*: any*/),
+                  (v4/*: any*/),
+                  (v5/*: any*/)
+                ],
                 "storageKey": null
               }
             ],
             "storageKey": null
           },
-          (v3/*: any*/)
+          (v6/*: any*/)
+        ],
+        "storageKey": null
+      }
+    ],
+    "type": "Mutation",
+    "abstractKey": null
+  },
+  "kind": "Request",
+  "operation": {
+    "argumentDefinitions": (v0/*: any*/),
+    "kind": "Operation",
+    "name": "EditRecipeMutation",
+    "selections": [
+      {
+        "alias": null,
+        "args": (v1/*: any*/),
+        "concreteType": "UpdateRecipePayload",
+        "kind": "LinkedField",
+        "name": "updateRecipe",
+        "plural": false,
+        "selections": [
+          {
+            "alias": null,
+            "args": null,
+            "concreteType": "Recipe",
+            "kind": "LinkedField",
+            "name": "recipe",
+            "plural": false,
+            "selections": [
+              (v2/*: any*/),
+              {
+                "alias": null,
+                "args": null,
+                "concreteType": "RecipePhoto",
+                "kind": "LinkedField",
+                "name": "recipePhotos",
+                "plural": true,
+                "selections": [
+                  (v2/*: any*/),
+                  (v3/*: any*/),
+                  (v4/*: any*/),
+                  (v5/*: any*/),
+                  (v7/*: any*/)
+                ],
+                "storageKey": null
+              },
+              (v7/*: any*/)
+            ],
+            "storageKey": null
+          },
+          (v6/*: any*/)
         ],
         "storageKey": null
       }
     ]
   },
   "params": {
-    "cacheID": "2902f6b26f3e656a6ff1af2c157d76d6",
+    "cacheID": "38d4307124515f24e6ffa46c36badbe8",
     "id": null,
     "metadata": {},
-    "name": "NewRecipeMutation",
+    "name": "EditRecipeMutation",
     "operationKind": "mutation",
-    "text": "mutation NewRecipeMutation(\n  $input: CreateRecipeInput!\n) {\n  createRecipe(input: $input) {\n    recipe {\n      databaseId\n      id\n    }\n    errors {\n      field\n      messages\n    }\n  }\n}\n"
+    "text": "mutation EditRecipeMutation(\n  $input: UpdateRecipeInput!\n) {\n  updateRecipe(input: $input) {\n    recipe {\n      databaseId\n      recipePhotos {\n        databaseId\n        position\n        urlThumb1x\n        urlThumb2x\n        id\n      }\n      id\n    }\n    errors {\n      field\n      messages\n    }\n  }\n}\n"
   }
 };
 })();
 // prettier-ignore
-(node/*: any*/).hash = '921527d2e458eb21d93db02f455191f9';
+(node/*: any*/).hash = 'ccb7ea5bf7d545d0d611dd7f88f42c23';
 
 module.exports = node;

@@ -34,11 +34,11 @@ const Recipe = ({ recipe }) => {
 Recipe.propTypes = {
   recipe: PropTypes.shape({
     cookingTime: PropTypes.number,
-    databaseId: PropTypes.string.isRequired,
+    databaseId: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
     course: PropTypes.shape({
       name: PropTypes.string.isRequired,
-    }).isRequired,
+    }),
     recipePhotos: PropTypes.arrayOf(
       PropTypes.shape({
         urlThumb1x: PropTypes.string.isRequired,

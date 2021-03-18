@@ -9,12 +9,12 @@ module Mutations
       subject { mutation(graphql, variables: variables).data['updateRecipe'] }
 
       context 'when the params are valid' do
-        let(:variables) { { id: recipe.id } }
+        let(:variables) { { database_id: recipe.id } }
         let(:graphql) do
           <<~GHL
-            mutation UpdateRecipe($id: ID!) {
-              updateRecipe(input: { id: $id name: "Boontjes" }) {
-                recipe { id }
+            mutation UpdateRecipe($databaseId: Int!) {
+              updateRecipe(input: { databaseId: $databaseId name: "Boontjes" }) {
+                recipe { databaseId }
               }
             }
           GHL
@@ -28,17 +28,17 @@ module Mutations
         end
 
         it 'return the recipe' do
-          expect(subject['recipe']['id']).to be_present
+          expect(subject['recipe']['databaseId']).to be_present
         end
       end
 
       context 'when the params are invalid' do
-        let(:variables) { { id: recipe.id } }
+        let(:variables) { { database_id: recipe.id } }
         let(:graphql) do
           <<~GHL
-            mutation UpdateRecipe($id: ID!) {
-              updateRecipe(input: { id: $id name: "" }) {
-                recipe { id }
+            mutation UpdateRecipe($databaseId: Int!) {
+              updateRecipe(input: { databaseId: $databaseId name: "" }) {
+                recipe { databaseId }
                 errors { field messages }
               }
             }

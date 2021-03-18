@@ -30,7 +30,7 @@
     "build": "yarn run relay && react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "update-schema": "get-graphql-schema http://localhost:3000/graphql > schema/schema.graphql",
+    "update-schema": "get-graphql-schema http://cookbook.test/graphql > schema/schema.graphql",
     "relay": "yarn run relay-compiler --schema schema/schema.graphql --src ./src/ $@"
   },
   "eslintConfig": {
