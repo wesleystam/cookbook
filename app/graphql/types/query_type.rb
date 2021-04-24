@@ -9,6 +9,7 @@ module Types
     field :menu_items, resolver: Queries::MenuItems
     field :recipe, resolver: Queries::Recipe
     field :recipes, resolver: Queries::Recipes
+    field :recipe_pagination, resolver: Queries::RecipePagination
     field :seasons, resolver: Queries::Seasons
   end
 end

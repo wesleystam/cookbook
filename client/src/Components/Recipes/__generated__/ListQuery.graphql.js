@@ -9,7 +9,7 @@
 /*::
 import type { ConcreteRequest } from 'relay-runtime';
 export type ListQueryVariables = {|
-  cursor?: ?string,
+  page?: ?number,
   query?: ?string,
   sortBy?: ?string,
   sortDirection?: ?string,
@@ -18,22 +18,20 @@ export type ListQueryVariables = {|
   seasonId?: ?string,
 |};
 export type ListQueryResponse = {|
-  +recipes: {|
-    +edges: ?$ReadOnlyArray<?{|
-      +__id: string,
-      +node: ?{|
-        +databaseId: number,
-        +name: string,
-        +cookingTime: ?number,
-        +course: ?{|
-          +name: ?string
-        |},
-        +recipePhotos: $ReadOnlyArray<{|
-          +urlThumb1x: string,
-          +urlThumb2x: string,
-        |}>,
+  +recipePagination: {|
+    +recipes: $ReadOnlyArray<{|
+      +databaseId: number,
+      +name: string,
+      +cookingTime: ?number,
+      +course: ?{|
+        +name: ?string
       |},
-    |}>
+      +recipePhotos: $ReadOnlyArray<{|
+        +urlThumb1x: string,
+        +urlThumb2x: string,
+      |}>,
+    |}>,
+    +totalCount: number,
   |}
 |};
 export type ListQuery = {|
@@ -45,7 +43,7 @@ export type ListQuery = {|
 
 /*
 query ListQuery(
-  $cursor: String
+  $page: Int
   $query: String
   $sortBy: String
   $sortDirection: String
@@ -53,30 +51,23 @@ query ListQuery(
   $courseId: ID
   $seasonId: ID
 ) {
-  recipes(after: $cursor, first: 52, query: $query, sortBy: $sortBy, sortDirection: $sortDirection, vegetarian: $vegetarian, seasonId: $seasonId, courseId: $courseId) {
-    edges {
-      node {
-        databaseId
+  recipePagination(page: $page, query: $query, sortBy: $sortBy, sortDirection: $sortDirection, vegetarian: $vegetarian, seasonId: $seasonId, courseId: $courseId) {
+    recipes {
+      databaseId
+      name
+      cookingTime
+      course {
         name
-        cookingTime
-        course {
-          name
-          id
-        }
-        recipePhotos {
-          urlThumb1x
-          urlThumb2x
-          id
-        }
         id
-        __typename
       }
-      cursor
+      recipePhotos {
+        urlThumb1x
+        urlThumb2x
+        id
+      }
+      id
     }
-    pageInfo {
-      endCursor
-      hasNextPage
-    }
+    totalCount
   }
 }
 */
@@ -90,7 +81,7 @@ var v0 = {
 v1 = {
   "defaultValue": null,
   "kind": "LocalArgument",
-  "name": "cursor"
+  "name": "page"
 },
 v2 = {
   "defaultValue": null,
@@ -117,141 +108,86 @@ v6 = {
   "kind": "LocalArgument",
   "name": "vegetarian"
 },
-v7 = {
-  "kind": "Variable",
-  "name": "courseId",
-  "variableName": "courseId"
-},
+v7 = [
+  {
+    "kind": "Variable",
+    "name": "courseId",
+    "variableName": "courseId"
+  },
+  {
+    "kind": "Variable",
+    "name": "page",
+    "variableName": "page"
+  },
+  {
+    "kind": "Variable",
+    "name": "query",
+    "variableName": "query"
+  },
+  {
+    "kind": "Variable",
+    "name": "seasonId",
+    "variableName": "seasonId"
+  },
+  {
+    "kind": "Variable",
+    "name": "sortBy",
+    "variableName": "sortBy"
+  },
+  {
+    "kind": "Variable",
+    "name": "sortDirection",
+    "variableName": "sortDirection"
+  },
+  {
+    "kind": "Variable",
+    "name": "vegetarian",
+    "variableName": "vegetarian"
+  }
+],
 v8 = {
-  "kind": "Variable",
-  "name": "query",
-  "variableName": "query"
-},
-v9 = {
-  "kind": "Variable",
-  "name": "seasonId",
-  "variableName": "seasonId"
-},
-v10 = {
-  "kind": "Variable",
-  "name": "sortBy",
-  "variableName": "sortBy"
-},
-v11 = {
-  "kind": "Variable",
-  "name": "sortDirection",
-  "variableName": "sortDirection"
-},
-v12 = {
-  "kind": "Variable",
-  "name": "vegetarian",
-  "variableName": "vegetarian"
-},
-v13 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "databaseId",
   "storageKey": null
 },
-v14 = {
+v9 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "name",
   "storageKey": null
 },
-v15 = {
+v10 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "cookingTime",
   "storageKey": null
 },
-v16 = {
+v11 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "urlThumb1x",
   "storageKey": null
 },
-v17 = {
+v12 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "urlThumb2x",
   "storageKey": null
 },
-v18 = {
+v13 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "__typename",
+  "name": "totalCount",
   "storageKey": null
 },
-v19 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "cursor",
-  "storageKey": null
-},
-v20 = {
-  "kind": "ClientExtension",
-  "selections": [
-    {
-      "alias": null,
-      "args": null,
-      "kind": "ScalarField",
-      "name": "__id",
-      "storageKey": null
-    }
-  ]
-},
-v21 = {
-  "alias": null,
-  "args": null,
-  "concreteType": "PageInfo",
-  "kind": "LinkedField",
-  "name": "pageInfo",
-  "plural": false,
-  "selections": [
-    {
-      "alias": null,
-      "args": null,
-      "kind": "ScalarField",
-      "name": "endCursor",
-      "storageKey": null
-    },
-    {
-      "alias": null,
-      "args": null,
-      "kind": "ScalarField",
-      "name": "hasNextPage",
-      "storageKey": null
-    }
-  ],
-  "storageKey": null
-},
-v22 = [
-  {
-    "kind": "Variable",
-    "name": "after",
-    "variableName": "cursor"
-  },
-  (v7/*: any*/),
-  {
-    "kind": "Literal",
-    "name": "first",
-    "value": 52
-  },
-  (v8/*: any*/),
-  (v9/*: any*/),
-  (v10/*: any*/),
-  (v11/*: any*/),
-  (v12/*: any*/)
-],
-v23 = {
+v14 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
@@ -274,74 +210,53 @@ return {
     "name": "ListQuery",
     "selections": [
       {
-        "alias": "recipes",
-        "args": [
-          (v7/*: any*/),
-          (v8/*: any*/),
-          (v9/*: any*/),
-          (v10/*: any*/),
-          (v11/*: any*/),
-          (v12/*: any*/)
-        ],
-        "concreteType": "RecipeConnection",
+        "alias": null,
+        "args": (v7/*: any*/),
+        "concreteType": "RecipePagination",
         "kind": "LinkedField",
-        "name": "__Recipies_recipes_connection",
+        "name": "recipePagination",
         "plural": false,
         "selections": [
           {
             "alias": null,
             "args": null,
-            "concreteType": "RecipeEdge",
+            "concreteType": "Recipe",
             "kind": "LinkedField",
-            "name": "edges",
+            "name": "recipes",
             "plural": true,
             "selections": [
+              (v8/*: any*/),
+              (v9/*: any*/),
+              (v10/*: any*/),
               {
                 "alias": null,
                 "args": null,
-                "concreteType": "Recipe",
+                "concreteType": "Course",
                 "kind": "LinkedField",
-                "name": "node",
+                "name": "course",
                 "plural": false,
                 "selections": [
-                  (v13/*: any*/),
-                  (v14/*: any*/),
-                  (v15/*: any*/),
-                  {
-                    "alias": null,
-                    "args": null,
-                    "concreteType": "Course",
-                    "kind": "LinkedField",
-                    "name": "course",
-                    "plural": false,
-                    "selections": [
-                      (v14/*: any*/)
-                    ],
-                    "storageKey": null
-                  },
-                  {
-                    "alias": null,
-                    "args": null,
-                    "concreteType": "RecipePhoto",
-                    "kind": "LinkedField",
-                    "name": "recipePhotos",
-                    "plural": true,
-                    "selections": [
-                      (v16/*: any*/),
-                      (v17/*: any*/)
-                    ],
-                    "storageKey": null
-                  },
-                  (v18/*: any*/)
+                  (v9/*: any*/)
                 ],
                 "storageKey": null
               },
-              (v19/*: any*/),
-              (v20/*: any*/)
+              {
+                "alias": null,
+                "args": null,
+                "concreteType": "RecipePhoto",
+                "kind": "LinkedField",
+                "name": "recipePhotos",
+                "plural": true,
+                "selections": [
+                  (v11/*: any*/),
+                  (v12/*: any*/)
+                ],
+                "storageKey": null
+              }
             ],
             "storageKey": null
           },
-          (v21/*: any*/)
+          (v13/*: any*/)
         ],
         "storageKey": null
       }
@@ -365,112 +280,71 @@ return {
     "selections": [
       {
         "alias": null,
-        "args": (v22/*: any*/),
-        "concreteType": "RecipeConnection",
+        "args": (v7/*: any*/),
+        "concreteType": "RecipePagination",
         "kind": "LinkedField",
-        "name": "recipes",
+        "name": "recipePagination",
         "plural": false,
         "selections": [
           {
             "alias": null,
             "args": null,
-            "concreteType": "RecipeEdge",
+            "concreteType": "Recipe",
             "kind": "LinkedField",
-            "name": "edges",
+            "name": "recipes",
             "plural": true,
             "selections": [
+              (v8/*: any*/),
+              (v9/*: any*/),
+              (v10/*: any*/),
               {
                 "alias": null,
                 "args": null,
-                "concreteType": "Recipe",
+                "concreteType": "Course",
                 "kind": "LinkedField",
-                "name": "node",
+                "name": "course",
                 "plural": false,
                 "selections": [
-                  (v13/*: any*/),
-                  (v14/*: any*/),
-                  (v15/*: any*/),
-                  {
-                    "alias": null,
-                    "args": null,
-                    "concreteType": "Course",
-                    "kind": "LinkedField",
-                    "name": "course",
-                    "plural": false,
-                    "selections": [
-                      (v14/*: any*/),
-                      (v23/*: any*/)
-                    ],
-                    "storageKey": null
-                  },
-                  {
-                    "alias": null,
-                    "args": null,
-                    "concreteType": "RecipePhoto",
-                    "kind": "LinkedField",
-                    "name": "recipePhotos",
-                    "plural": true,
-                    "selections": [
-                      (v16/*: any*/),
-                      (v17/*: any*/),
-                      (v23/*: any*/)
-                    ],
-                    "storageKey": null
-                  },
-                  (v23/*: any*/),
-                  (v18/*: any*/)
+                  (v9/*: any*/),
+                  (v14/*: any*/)
                 ],
                 "storageKey": null
               },
-              (v19/*: any*/),
-              (v20/*: any*/)
+              {
+                "alias": null,
+                "args": null,
+                "concreteType": "RecipePhoto",
+                "kind": "LinkedField",
+                "name": "recipePhotos",
+                "plural": true,
+                "selections": [
+                  (v11/*: any*/),
+                  (v12/*: any*/),
+                  (v14/*: any*/)
+                ],
+                "storageKey": null
+              },
+              (v14/*: any*/)
             ],
             "storageKey": null
           },
-          (v21/*: any*/)
+          (v13/*: any*/)
         ],
         "storageKey": null
-      },
-      {
-        "alias": null,
-        "args": (v22/*: any*/),
-        "filters": [
-          "query",
-          "sortBy",
-          "sortDirection",
-          "vegetarian",
-          "seasonId",
-          "courseId"
-        ],
-        "handle": "connection",
-        "key": "Recipies_recipes",
-        "kind": "LinkedHandle",
-        "name": "recipes"
       }
     ]
   },
   "params": {
-    "cacheID": "b89ad7ea877d74ed258d1e3599291d04",
+    "cacheID": "d293cc915d8267d52ed603f00f734ccc",
     "id": null,
-    "metadata": {
-      "connection": [
-        {
-          "count": null,
-          "cursor": "cursor",
-          "direction": "forward",
-          "path": [
-            "recipes"
-          ]
-        }
-      ]
-    },
+    "metadata": {},
     "name": "ListQuery",
     "operationKind": "query",
-    "text": "query ListQuery(\n  $cursor: String\n  $query: String\n  $sortBy: String\n  $sortDirection: String\n  $vegetarian: Boolean\n  $courseId: ID\n  $seasonId: ID\n) {\n  recipes(after: $cursor, first: 52, query: $query, sortBy: $sortBy, sortDirection: $sortDirection, vegetarian: $vegetarian, seasonId: $seasonId, courseId: $courseId) {\n    edges {\n      node {\n        databaseId\n        name\n        cookingTime\n        course {\n          name\n          id\n        }\n        recipePhotos {\n          urlThumb1x\n          urlThumb2x\n          id\n        }\n        id\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n"
+    "text": "query ListQuery(\n  $page: Int\n  $query: String\n  $sortBy: String\n  $sortDirection: String\n  $vegetarian: Boolean\n  $courseId: ID\n  $seasonId: ID\n) {\n  recipePagination(page: $page, query: $query, sortBy: $sortBy, sortDirection: $sortDirection, vegetarian: $vegetarian, seasonId: $seasonId, courseId: $courseId) {\n    recipes {\n      databaseId\n      name\n      cookingTime\n      course {\n        name\n        id\n      }\n      recipePhotos {\n        urlThumb1x\n        urlThumb2x\n        id\n      }\n      id\n    }\n    totalCount\n  }\n}\n"
   }
 };
 })();
 // prettier-ignore
-(node/*: any*/).hash = '75ea93ec1bd126d888afc65a6cf79e1c';
+(node/*: any*/).hash = '6fac3150c0a68498ee20b4261ff91d1f';
 
 module.exports = node;

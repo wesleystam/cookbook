@@ -3,14 +3,19 @@ import graphql from 'babel-plugin-relay/macro';
 import { useLazyLoadQuery } from 'react-relay/hooks';
 
 import Recipe from './Recipe';
+import Pagination from './Pagination';
 
 import { inGroupsOf } from '../../utils';
 
+const perPage = 52;
+
 const List = (props) => {
-  const data = useLazyLoadQuery(
+  const {
+    recipePagination: { recipes, totalCount },
+  } = useLazyLoadQuery(
     graphql`
       query ListQuery(
-        $cursor: String
+        $page: Int
         $query: String
         $sortBy: String
         $sortDirection: String
@@ -18,31 +23,28 @@ const List = (props) => {
         $courseId: ID
         $seasonId: ID
       ) {
-        recipes(
-          after: $cursor
-          first: 52
+        recipePagination(
+          page: $page
           query: $query
           sortBy: $sortBy
           sortDirection: $sortDirection
           vegetarian: $vegetarian
           seasonId: $seasonId
           courseId: $courseId
-        ) @connection(key: "Recipies_recipes") {
-          edges {
-            __id
-            node {
-              databaseId
+        ) {
+          recipes {
+            databaseId
+            name
+            cookingTime
+            course {
               name
-              cookingTime
-              course {
-                name
-              }
-              recipePhotos {
-                urlThumb1x
-                urlThumb2x
-              }
+            }
+            recipePhotos {
+              urlThumb1x
+              urlThumb2x
             }
           }
+          totalCount
         }
       }
     `,
@@ -51,22 +53,35 @@ const List = (props) => {
   );
 
   const renderRecipe = (recipe) => (
-    <Recipe key={recipe.cursor} recipe={recipe.node} />
+    <Recipe key={recipe.databaseId} recipe={recipe} />
   );
 
   return (
-    <div style={{ color: 'black' }}>
-      {inGroupsOf(data.recipes.edges, 4).map((group, idx) => (
-        <div key={idx} className="row mb-4">
-          {group.map(renderRecipe)}
-        </div>
-      ))}
-    </div>
+    <>
+      <Pagination
+        onChange={props.onPageChange}
+        page={props.filter.page}
+        totalPages={Math.ceil(totalCount / perPage)}
+      />
+      <div style={{ color: 'black' }}>
+        {inGroupsOf(recipes, 4).map((group, idx) => (
+          <div key={idx} className="row mb-4">
+            {group.map(renderRecipe)}
+          </div>
+        ))}
+      </div>
+      <Pagination
+        onChange={props.onPageChange}
+        page={props.filter.page}
+        totalPages={Math.ceil(totalCount / perPage)}
+      />
+    </>
   );
 };
 
 List.propTypes = {
   filter: PropTypes.object,
+  onPageChange: PropTypes.func.isRequired,
 };
 
 export default List;

@@ -46,17 +46,23 @@ const Recipes = (props) => {
   );
 
   const [state, dispatch] = useReducer(reducer, {
+    courseId: '',
+    cursor: '',
+    page: 1,
     query: '',
-    vegetarian: null,
+    seasonId: '',
     sortBy: '',
     sortDirection: 'asc',
-    courseId: '',
-    seasonId: '',
+    vegetarian: null,
   });
   const deferredState = useDeferredValue(state, { timeoutMs: 2000 });
 
   const onChange = ({ target: { name, value } }) => {
     dispatch({ payload: { name, value } });
+  };
+
+  const onPageChange = (value) => {
+    dispatch({ payload: { name: 'page', value } });
   };
 
   const onVegetarionChange = ({ target: { value } }) => {
@@ -183,7 +189,7 @@ const Recipes = (props) => {
           </Col>
         </Row>
       </Form>
-      <List filter={deferredState} />
+      <List filter={deferredState} onPageChange={onPageChange} />
     </>
   );
 };
