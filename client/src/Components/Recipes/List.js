@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import graphql from 'babel-plugin-relay/macro';
 import { useLazyLoadQuery } from 'react-relay/hooks';
@@ -9,7 +10,7 @@ import { inGroupsOf } from '../../utils';
 
 const perPage = 52;
 
-const List = (props) => {
+const List = ({ filter, onPageChange }) => {
   const {
     recipePagination: { recipes, totalCount },
   } = useLazyLoadQuery(
@@ -48,9 +49,15 @@ const List = (props) => {
         }
       }
     `,
-    props.filter,
+    filter,
     { fetchPolicy: 'store-or-network' }
   );
+
+  useEffect(() => {
+    if (recipes.length === 0 && filter.page > 0) {
+      onPageChange(Math.ceil(totalCount / perPage));
+    }
+  }, [filter.page, onPageChange, recipes.length, totalCount]);
 
   const renderRecipe = (recipe) => (
     <Recipe key={recipe.databaseId} recipe={recipe} />
@@ -59,8 +66,8 @@ const List = (props) => {
   return (
     <>
       <Pagination
-        onChange={props.onPageChange}
-        page={props.filter.page}
+        onChange={onPageChange}
+        page={filter.page}
         totalPages={Math.ceil(totalCount / perPage)}
       />
       <div style={{ color: 'black' }}>
@@ -71,8 +78,8 @@ const List = (props) => {
         ))}
       </div>
       <Pagination
-        onChange={props.onPageChange}
-        page={props.filter.page}
+        onChange={onPageChange}
+        page={filter.page}
         totalPages={Math.ceil(totalCount / perPage)}
       />
     </>

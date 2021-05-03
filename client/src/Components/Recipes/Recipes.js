@@ -22,13 +22,27 @@ import { Link } from '../../routing/Link';
 import List from './List';
 
 const reducer = (state, { type, payload }) => {
-  return {
+  const newState = {
     ...state,
     [payload.name]: payload.value,
   };
+  sessionStorage.setItem('recipes-filters', JSON.stringify(newState));
+  return newState;
 };
 
 const Recipes = (props) => {
+  const initialState = JSON.parse(
+    sessionStorage.getItem('recipes-filters')
+  ) || {
+    courseId: '',
+    cursor: '',
+    page: 1,
+    query: '',
+    seasonId: '',
+    sortBy: '',
+    sortDirection: 'asc',
+    vegetarian: null,
+  };
   const data = usePreloadedQuery(
     graphql`
       query RecipesQuery {
@@ -45,17 +59,8 @@ const Recipes = (props) => {
     props.prepared.recipesQuery
   );
 
-  const [state, dispatch] = useReducer(reducer, {
-    courseId: '',
-    cursor: '',
-    page: 1,
-    query: '',
-    seasonId: '',
-    sortBy: '',
-    sortDirection: 'asc',
-    vegetarian: null,
-  });
-  const deferredState = useDeferredValue(state, { timeoutMs: 2000 });
+  const [state, dispatch] = useReducer(reducer, initialState);
+  const deferredState = useDeferredValue(state, { timeoutMs: 100 });
 
   const onChange = ({ target: { name, value } }) => {
     dispatch({ payload: { name, value } });
