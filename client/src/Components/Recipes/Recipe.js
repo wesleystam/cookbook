@@ -7,7 +7,7 @@ const Recipe = ({ recipe }) => {
   const photo = recipe.recipePhotos[0];
 
   return (
-    <Col sm="3">
+    <Col sm="6" lg="3" className="mb-4">
       <Card className="h-100">
         {photo && (
           <img

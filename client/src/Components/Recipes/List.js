@@ -72,7 +72,7 @@ const List = ({ filter, onPageChange }) => {
       />
       <div style={{ color: 'black' }}>
         {inGroupsOf(recipes, 4).map((group, idx) => (
-          <div key={idx} className="row mb-4">
+          <div key={idx} className="row">
             {group.map(renderRecipe)}
           </div>
         ))}
