@@ -11,12 +11,14 @@ import {
 } from '@fortawesome/pro-regular-svg-icons';
 
 import { Link } from '../../routing/Link';
+import CalendarButton from '../CalendarButton';
 
 const Recipe = (props) => {
   const { recipe } = usePreloadedQuery(
     graphql`
       query RecipeQuery($id: ID!) {
         recipe(id: $id) {
+          id
           name
           characteristic
           vegetarian
@@ -29,6 +31,9 @@ const Recipe = (props) => {
           preparation
           course {
             name
+          }
+          menuItems {
+            day
           }
           season {
             name
@@ -43,6 +48,8 @@ const Recipe = (props) => {
     `,
     props.prepared.recipeQuery
   );
+
+  const renderMenuItem = (menuItem) => <div>{menuItem.day}</div>;
 
   const renderPhoto = (photo) => (
     <img
@@ -64,7 +71,6 @@ const Recipe = (props) => {
           <FontAwesomeIcon icon={faPen} /> Wijzigen
         </Link>
       </div>
-
       <h1 className="mt-2 mb-4">{recipe.name}</h1>
       <dl className="row">
         <dt className="col-3">Menugang</dt>
@@ -92,11 +98,20 @@ const Recipe = (props) => {
         <dt className="col-3">Bladzijde nummer </dt>
         <dd className="col-9">{recipe.pageNumber}</dd>
         <dt className="col-3">Ingrediënten</dt>
-        <dd className="col-9 wrap">{recipe.ingredients}</dd>
+        <dd className="col-9 wrap">
+          {recipe.ingredients ? recipe.ingredients : '-'}
+        </dd>
         <dt className="col-3">Bereiding</dt>
-        <dd className="col-9 wrap">{recipe.preparation}</dd>
+        <dd className="col-9 wrap">
+          {recipe.preparation ? recipe.preparation : '-'}
+        </dd>
       </dl>
 
+      <h2>Menu</h2>
+      <div className="mb-3" style={{ maxHeight: '150px', overflowY: 'scroll' }}>
+        {recipe.menuItems.map(renderMenuItem)}
+      </div>
+      <CalendarButton recipe={recipe} />
       {recipe.recipePhotos.map(renderPhoto)}
     </>
   );

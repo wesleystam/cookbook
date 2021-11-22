@@ -91,8 +91,16 @@ type MenuItem implements Node {
   day: ISO8601Date
   id: ID!
   position: Int
+  recipe: Recipe!
   recipeId: Int!
   updatedAt: ISO8601DateTime!
+}
+
+input MenuItemAttributes {
+  id: ID
+  _destroy: Boolean
+  position: Int
+  day: String
 }
 
 type Mutation {
@@ -189,6 +197,7 @@ type Recipe implements Node {
   databaseId: Int!
   id: ID!
   ingredients: String
+  menuItems: [MenuItem!]!
   name: String!
   pageNumber: Int
   preparation: String
@@ -285,6 +294,7 @@ input UpdateRecipeInput {
   cookingTime: Int
   courseId: ID
   seasonId: ID
+  menuItems: [MenuItemAttributes!]
   recipePhotos: [RecipePhotosAttributes!]
 
   """A unique identifier for the client performing the mutation."""

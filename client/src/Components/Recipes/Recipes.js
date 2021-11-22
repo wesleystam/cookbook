@@ -24,6 +24,7 @@ import List from './List';
 const reducer = (state, { type, payload }) => {
   const newState = {
     ...state,
+    page: 1,
     [payload.name]: payload.value,
   };
   sessionStorage.setItem('recipes-filters', JSON.stringify(newState));

@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import graphql from 'babel-plugin-relay/macro';
 import { useLazyLoadQuery } from 'react-relay/hooks';
@@ -10,58 +9,40 @@ import { inGroupsOf } from '../../utils';
 
 const perPage = 52;
 
+const query = graphql`
+  query ListQuery(
+    $page: Int
+    $query: String
+    $sortBy: String
+    $sortDirection: String
+    $vegetarian: Boolean
+    $courseId: ID
+    $seasonId: ID
+  ) {
+    recipePagination(
+      page: $page
+      query: $query
+      sortBy: $sortBy
+      sortDirection: $sortDirection
+      vegetarian: $vegetarian
+      seasonId: $seasonId
+      courseId: $courseId
+    ) {
+      recipes {
+        id
+        ...RecipeComponent_recipes
+      }
+      totalCount
+    }
+  }
+`;
+
 const List = ({ filter, onPageChange }) => {
   const {
     recipePagination: { recipes, totalCount },
-  } = useLazyLoadQuery(
-    graphql`
-      query ListQuery(
-        $page: Int
-        $query: String
-        $sortBy: String
-        $sortDirection: String
-        $vegetarian: Boolean
-        $courseId: ID
-        $seasonId: ID
-      ) {
-        recipePagination(
-          page: $page
-          query: $query
-          sortBy: $sortBy
-          sortDirection: $sortDirection
-          vegetarian: $vegetarian
-          seasonId: $seasonId
-          courseId: $courseId
-        ) {
-          recipes {
-            databaseId
-            name
-            cookingTime
-            course {
-              name
-            }
-            recipePhotos {
-              urlThumb1x
-              urlThumb2x
-            }
-          }
-          totalCount
-        }
-      }
-    `,
-    filter,
-    { fetchPolicy: 'store-or-network' }
-  );
+  } = useLazyLoadQuery(query, filter, { fetchPolicy: 'store-or-network' });
 
-  useEffect(() => {
-    if (recipes.length === 0 && filter.page > 0) {
-      onPageChange(Math.ceil(totalCount / perPage));
-    }
-  }, [filter.page, onPageChange, recipes.length, totalCount]);
-
-  const renderRecipe = (recipe) => (
-    <Recipe key={recipe.databaseId} recipe={recipe} />
-  );
+  const renderRecipe = (recipe) => <Recipe key={recipe.id} recipe={recipe} />;
 
   return (
     <>

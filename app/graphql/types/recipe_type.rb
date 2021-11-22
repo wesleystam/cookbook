@@ -21,6 +21,7 @@ module Types
     field :updated_at, GraphQL::Types::ISO8601DateTime, null: false
 
     field :course, CourseType, null: true
+    field :menu_items, [MenuItemType], null: false
     field :season, SeasonType, null: true
     field :recipe_photos, [RecipePhotoType], null: false, method: :ordered_recipe_photos
   end

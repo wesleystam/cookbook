@@ -16,6 +16,7 @@
     "node-sass": "4.14.1",
     "react": "^0.0.0-experimental-27659559e",
     "react-bootstrap": "^1.4.3",
+    "react-calendar": "^3.4.0",
     "react-dom": "^0.0.0-experimental-27659559e",
     "react-relay": "^0.0.0-experimental-0b967d2e",
     "react-router": "^5.2.0",

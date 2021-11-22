@@ -176,6 +176,7 @@ const RecipeForm = ({
             as="textarea"
             id="comment"
             isInvalid={errors.findIndex((e) => e.field === 'comment') >= 0}
+            name="comment"
             onChange={onChange}
             value={recipe.comment}
           />
@@ -289,7 +290,13 @@ const RecipeForm = ({
       <Row>
         <Col className="offset-md-2">
           <Button disabled={isInFlight} type="submit">
-            {isInFlight ? 'Toevoegen...' : 'Toevoegen'}
+            {recipe.databaseId
+              ? isInFlight
+                ? 'Bijwerken...'
+                : 'Bijwerken'
+              : isInFlight
+              ? 'Toevoegen...'
+              : 'Toevoegen'}
           </Button>
         </Col>
       </Row>
@@ -324,6 +331,7 @@ RecipeForm.propTypes = {
     comment: PropTypes.string,
     cookingTime: PropTypes.number,
     courseId: PropTypes.string,
+    databaseId: PropTypes.number,
     ingredients: PropTypes.string,
     name: PropTypes.string,
     preparation: PropTypes.string,
@@ -335,7 +343,7 @@ RecipeForm.propTypes = {
         urlThumb2x: PropTypes.string,
       })
     ).isRequired,
-    seasonId: PropTypes.number,
+    seasonId: PropTypes.string,
     vegetarian: PropTypes.bool,
   }).isRequired,
   seasons: PropTypes.arrayOf(

@@ -19,8 +19,15 @@ export type UpdateRecipeInput = {|
   cookingTime?: ?number,
   courseId?: ?string,
   seasonId?: ?string,
+  menuItems?: ?$ReadOnlyArray<MenuItemAttributes>,
   recipePhotos?: ?$ReadOnlyArray<RecipePhotosAttributes>,
   clientMutationId?: ?string,
+|};
+export type MenuItemAttributes = {|
+  id?: ?string,
+  _destroy?: ?boolean,
+  position?: ?number,
+  day?: ?string,
 |};
 export type RecipePhotosAttributes = {|
   id?: ?string,
@@ -34,13 +41,22 @@ export type EditRecipeMutationVariables = {|
 export type EditRecipeMutationResponse = {|
   +updateRecipe: ?{|
     +recipe: ?{|
+      +characteristic: ?string,
+      +comment: ?string,
+      +cookingTime: ?number,
+      +courseId: ?string,
       +databaseId: number,
+      +ingredients: ?string,
+      +name: string,
+      +preparation: ?string,
       +recipePhotos: $ReadOnlyArray<{|
         +databaseId: number,
         +position: ?number,
         +urlThumb1x: string,
         +urlThumb2x: string,
       |}>,
+      +seasonId: ?string,
+      +vegetarian: ?boolean,
     |},
     +errors: $ReadOnlyArray<{|
       +field: string,
@@ -61,7 +77,14 @@ mutation EditRecipeMutation(
 ) {
   updateRecipe(input: $input) {
     recipe {
+      characteristic
+      comment
+      cookingTime
+      courseId
       databaseId
+      ingredients
+      name
+      preparation
       recipePhotos {
         databaseId
         position
@@ -69,6 +92,8 @@ mutation EditRecipeMutation(
         urlThumb2x
         id
       }
+      seasonId
+      vegetarian
       id
     }
     errors {
@@ -98,31 +123,94 @@ v2 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "databaseId",
+  "name": "characteristic",
   "storageKey": null
 },
 v3 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "position",
+  "name": "comment",
   "storageKey": null
 },
 v4 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "urlThumb1x",
+  "name": "cookingTime",
   "storageKey": null
 },
 v5 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "urlThumb2x",
+  "name": "courseId",
   "storageKey": null
 },
 v6 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "databaseId",
+  "storageKey": null
+},
+v7 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "ingredients",
+  "storageKey": null
+},
+v8 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "name",
+  "storageKey": null
+},
+v9 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "preparation",
+  "storageKey": null
+},
+v10 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "position",
+  "storageKey": null
+},
+v11 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "urlThumb1x",
+  "storageKey": null
+},
+v12 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "urlThumb2x",
+  "storageKey": null
+},
+v13 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "seasonId",
+  "storageKey": null
+},
+v14 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "vegetarian",
+  "storageKey": null
+},
+v15 = {
   "alias": null,
   "args": null,
   "concreteType": "ValidationError",
@@ -147,7 +235,7 @@ v6 = {
   ],
   "storageKey": null
 },
-v7 = {
+v16 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
@@ -178,6 +266,13 @@ return {
             "plural": false,
             "selections": [
               (v2/*: any*/),
+              (v3/*: any*/),
+              (v4/*: any*/),
+              (v5/*: any*/),
+              (v6/*: any*/),
+              (v7/*: any*/),
+              (v8/*: any*/),
+              (v9/*: any*/),
               {
                 "alias": null,
                 "args": null,
@@ -186,17 +281,19 @@ return {
                 "name": "recipePhotos",
                 "plural": true,
                 "selections": [
-                  (v2/*: any*/),
-                  (v3/*: any*/),
-                  (v4/*: any*/),
-                  (v5/*: any*/)
+                  (v6/*: any*/),
+                  (v10/*: any*/),
+                  (v11/*: any*/),
+                  (v12/*: any*/)
                 ],
                 "storageKey": null
-              }
+              },
+              (v13/*: any*/),
+              (v14/*: any*/)
             ],
             "storageKey": null
           },
-          (v6/*: any*/)
+          (v15/*: any*/)
         ],
         "storageKey": null
       }
@@ -227,6 +324,13 @@ return {
             "plural": false,
             "selections": [
               (v2/*: any*/),
+              (v3/*: any*/),
+              (v4/*: any*/),
+              (v5/*: any*/),
+              (v6/*: any*/),
+              (v7/*: any*/),
+              (v8/*: any*/),
+              (v9/*: any*/),
               {
                 "alias": null,
                 "args": null,
@@ -235,35 +339,37 @@ return {
                 "name": "recipePhotos",
                 "plural": true,
                 "selections": [
-                  (v2/*: any*/),
-                  (v3/*: any*/),
-                  (v4/*: any*/),
-                  (v5/*: any*/),
-                  (v7/*: any*/)
+                  (v6/*: any*/),
+                  (v10/*: any*/),
+                  (v11/*: any*/),
+                  (v12/*: any*/),
+                  (v16/*: any*/)
                 ],
                 "storageKey": null
               },
-              (v7/*: any*/)
+              (v13/*: any*/),
+              (v14/*: any*/),
+              (v16/*: any*/)
             ],
             "storageKey": null
           },
-          (v6/*: any*/)
+          (v15/*: any*/)
         ],
         "storageKey": null
       }
     ]
   },
   "params": {
-    "cacheID": "38d4307124515f24e6ffa46c36badbe8",
+    "cacheID": "7378e22c4979f960f5847efc7603a4a9",
     "id": null,
     "metadata": {},
     "name": "EditRecipeMutation",
     "operationKind": "mutation",
-    "text": "mutation EditRecipeMutation(\n  $input: UpdateRecipeInput!\n) {\n  updateRecipe(input: $input) {\n    recipe {\n      databaseId\n      recipePhotos {\n        databaseId\n        position\n        urlThumb1x\n        urlThumb2x\n        id\n      }\n      id\n    }\n    errors {\n      field\n      messages\n    }\n  }\n}\n"
+    "text": "mutation EditRecipeMutation(\n  $input: UpdateRecipeInput!\n) {\n  updateRecipe(input: $input) {\n    recipe {\n      characteristic\n      comment\n      cookingTime\n      courseId\n      databaseId\n      ingredients\n      name\n      preparation\n      recipePhotos {\n        databaseId\n        position\n        urlThumb1x\n        urlThumb2x\n        id\n      }\n      seasonId\n      vegetarian\n      id\n    }\n    errors {\n      field\n      messages\n    }\n  }\n}\n"
   }
 };
 })();
 // prettier-ignore
-(node/*: any*/).hash = 'ccb7ea5bf7d545d0d611dd7f88f42c23';
+(node/*: any*/).hash = '142476e6652837e6802fe05bd3a3a26d';
 
 module.exports = node;

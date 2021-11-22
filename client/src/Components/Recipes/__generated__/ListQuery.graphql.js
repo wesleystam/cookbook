@@ -8,6 +8,7 @@
 
 /*::
 import type { ConcreteRequest } from 'relay-runtime';
+type RecipeComponent_recipes$ref = any;
 export type ListQueryVariables = {|
   page?: ?number,
   query?: ?string,
@@ -20,16 +21,8 @@ export type ListQueryVariables = {|
 export type ListQueryResponse = {|
   +recipePagination: {|
     +recipes: $ReadOnlyArray<{|
-      +databaseId: number,
-      +name: string,
-      +cookingTime: ?number,
-      +course: ?{|
-        +name: ?string
-      |},
-      +recipePhotos: $ReadOnlyArray<{|
-        +urlThumb1x: string,
-        +urlThumb2x: string,
-      |}>,
+      +id: string,
+      +$fragmentRefs: RecipeComponent_recipes$ref,
     |}>,
     +totalCount: number,
   |}
@@ -53,21 +46,25 @@ query ListQuery(
 ) {
   recipePagination(page: $page, query: $query, sortBy: $sortBy, sortDirection: $sortDirection, vegetarian: $vegetarian, seasonId: $seasonId, courseId: $courseId) {
     recipes {
-      databaseId
-      name
-      cookingTime
-      course {
-        name
-        id
-      }
-      recipePhotos {
-        urlThumb1x
-        urlThumb2x
-        id
-      }
       id
+      ...RecipeComponent_recipes
     }
     totalCount
+  }
+}
+
+fragment RecipeComponent_recipes on Recipe {
+  databaseId
+  name
+  cookingTime
+  course {
+    name
+    id
+  }
+  recipePhotos {
+    urlThumb1x
+    urlThumb2x
+    id
   }
 }
 */
@@ -149,49 +146,21 @@ v8 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "databaseId",
+  "name": "id",
   "storageKey": null
 },
 v9 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "name",
+  "name": "totalCount",
   "storageKey": null
 },
 v10 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "cookingTime",
-  "storageKey": null
-},
-v11 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "urlThumb1x",
-  "storageKey": null
-},
-v12 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "urlThumb2x",
-  "storageKey": null
-},
-v13 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "totalCount",
-  "storageKey": null
-},
-v14 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "id",
+  "name": "name",
   "storageKey": null
 };
 return {
@@ -226,37 +195,15 @@ return {
             "plural": true,
             "selections": [
               (v8/*: any*/),
-              (v9/*: any*/),
-              (v10/*: any*/),
               {
-                "alias": null,
                 "args": null,
-                "concreteType": "Course",
-                "kind": "LinkedField",
-                "name": "course",
-                "plural": false,
-                "selections": [
-                  (v9/*: any*/)
-                ],
-                "storageKey": null
-              },
-              {
-                "alias": null,
-                "args": null,
-                "concreteType": "RecipePhoto",
-                "kind": "LinkedField",
-                "name": "recipePhotos",
-                "plural": true,
-                "selections": [
-                  (v11/*: any*/),
-                  (v12/*: any*/)
-                ],
-                "storageKey": null
+                "kind": "FragmentSpread",
+                "name": "RecipeComponent_recipes"
               }
             ],
             "storageKey": null
           },
-          (v13/*: any*/)
+          (v9/*: any*/)
         ],
         "storageKey": null
       }
@@ -295,8 +242,21 @@ return {
             "plural": true,
             "selections": [
               (v8/*: any*/),
-              (v9/*: any*/),
+              {
+                "alias": null,
+                "args": null,
+                "kind": "ScalarField",
+                "name": "databaseId",
+                "storageKey": null
+              },
               (v10/*: any*/),
+              {
+                "alias": null,
+                "args": null,
+                "kind": "ScalarField",
+                "name": "cookingTime",
+                "storageKey": null
+              },
               {
                 "alias": null,
                 "args": null,
@@ -305,8 +265,8 @@ return {
                 "name": "course",
                 "plural": false,
                 "selections": [
-                  (v9/*: any*/),
-                  (v14/*: any*/)
+                  (v10/*: any*/),
+                  (v8/*: any*/)
                 ],
                 "storageKey": null
               },
@@ -318,33 +278,44 @@ return {
                 "name": "recipePhotos",
                 "plural": true,
                 "selections": [
-                  (v11/*: any*/),
-                  (v12/*: any*/),
-                  (v14/*: any*/)
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
+                    "name": "urlThumb1x",
+                    "storageKey": null
+                  },
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
+                    "name": "urlThumb2x",
+                    "storageKey": null
+                  },
+                  (v8/*: any*/)
                 ],
                 "storageKey": null
-              },
-              (v14/*: any*/)
+              }
             ],
             "storageKey": null
           },
-          (v13/*: any*/)
+          (v9/*: any*/)
         ],
         "storageKey": null
       }
     ]
   },
   "params": {
-    "cacheID": "d293cc915d8267d52ed603f00f734ccc",
+    "cacheID": "cf8efd3505ac32531bb457a9bf636fa2",
     "id": null,
     "metadata": {},
     "name": "ListQuery",
     "operationKind": "query",
-    "text": "query ListQuery(\n  $page: Int\n  $query: String\n  $sortBy: String\n  $sortDirection: String\n  $vegetarian: Boolean\n  $courseId: ID\n  $seasonId: ID\n) {\n  recipePagination(page: $page, query: $query, sortBy: $sortBy, sortDirection: $sortDirection, vegetarian: $vegetarian, seasonId: $seasonId, courseId: $courseId) {\n    recipes {\n      databaseId\n      name\n      cookingTime\n      course {\n        name\n        id\n      }\n      recipePhotos {\n        urlThumb1x\n        urlThumb2x\n        id\n      }\n      id\n    }\n    totalCount\n  }\n}\n"
+    "text": "query ListQuery(\n  $page: Int\n  $query: String\n  $sortBy: String\n  $sortDirection: String\n  $vegetarian: Boolean\n  $courseId: ID\n  $seasonId: ID\n) {\n  recipePagination(page: $page, query: $query, sortBy: $sortBy, sortDirection: $sortDirection, vegetarian: $vegetarian, seasonId: $seasonId, courseId: $courseId) {\n    recipes {\n      id\n      ...RecipeComponent_recipes\n    }\n    totalCount\n  }\n}\n\nfragment RecipeComponent_recipes on Recipe {\n  databaseId\n  name\n  cookingTime\n  course {\n    name\n    id\n  }\n  recipePhotos {\n    urlThumb1x\n    urlThumb2x\n    id\n  }\n}\n"
   }
 };
 })();
 // prettier-ignore
-(node/*: any*/).hash = '6fac3150c0a68498ee20b4261ff91d1f';
+(node/*: any*/).hash = '169a60958ada03678d20f89cce5a6883';
 
 module.exports = node;

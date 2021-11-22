@@ -9,5 +9,6 @@ class Recipe < ApplicationRecord
 
   validates :name, presence: true
 
+  accepts_nested_attributes_for :menu_items, allow_destroy: true
   accepts_nested_attributes_for :recipe_photos, allow_destroy: true
 end

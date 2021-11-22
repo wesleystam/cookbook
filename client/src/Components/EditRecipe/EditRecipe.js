@@ -51,13 +51,22 @@ const EditRecipe = (props) => {
       mutation EditRecipeMutation($input: UpdateRecipeInput!) {
         updateRecipe(input: $input) {
           recipe {
+            characteristic
+            comment
+            cookingTime
+            courseId
             databaseId
+            ingredients
+            name
+            preparation
             recipePhotos {
               databaseId
               position
               urlThumb1x
               urlThumb2x
             }
+            seasonId
+            vegetarian
           }
           errors {
             field

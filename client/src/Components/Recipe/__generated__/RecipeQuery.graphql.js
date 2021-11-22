@@ -13,6 +13,7 @@ export type RecipeQueryVariables = {|
 |};
 export type RecipeQueryResponse = {|
   +recipe: {|
+    +id: string,
     +name: string,
     +characteristic: ?string,
     +vegetarian: ?boolean,
@@ -26,6 +27,9 @@ export type RecipeQueryResponse = {|
     +course: ?{|
       +name: ?string
     |},
+    +menuItems: $ReadOnlyArray<{|
+      +day: ?any
+    |}>,
     +season: ?{|
       +name: ?string
     |},
@@ -48,6 +52,7 @@ query RecipeQuery(
   $id: ID!
 ) {
   recipe(id: $id) {
+    id
     name
     characteristic
     vegetarian
@@ -62,6 +67,10 @@ query RecipeQuery(
       name
       id
     }
+    menuItems {
+      day
+      id
+    }
     season {
       name
       id
@@ -71,7 +80,6 @@ query RecipeQuery(
       urlLarge1x
       urlLarge2x
     }
-    id
   }
 }
 */
@@ -95,83 +103,90 @@ v2 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "name",
+  "name": "id",
   "storageKey": null
 },
 v3 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "characteristic",
+  "name": "name",
   "storageKey": null
 },
 v4 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "vegetarian",
+  "name": "characteristic",
   "storageKey": null
 },
 v5 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "cookingTime",
+  "name": "vegetarian",
   "storageKey": null
 },
 v6 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "comment",
+  "name": "cookingTime",
   "storageKey": null
 },
 v7 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "databaseId",
+  "name": "comment",
   "storageKey": null
 },
 v8 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "bookNumber",
+  "name": "databaseId",
   "storageKey": null
 },
 v9 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "pageNumber",
+  "name": "bookNumber",
   "storageKey": null
 },
 v10 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "ingredients",
+  "name": "pageNumber",
   "storageKey": null
 },
 v11 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "preparation",
+  "name": "ingredients",
   "storageKey": null
 },
-v12 = [
-  (v2/*: any*/)
-],
-v13 = {
+v12 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "id",
+  "name": "preparation",
   "storageKey": null
 },
+v13 = [
+  (v3/*: any*/)
+],
 v14 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "day",
+  "storageKey": null
+},
+v15 = {
   "alias": null,
   "args": null,
   "concreteType": "RecipePhoto",
@@ -179,7 +194,7 @@ v14 = {
   "name": "recipePhotos",
   "plural": true,
   "selections": [
-    (v13/*: any*/),
+    (v2/*: any*/),
     {
       "alias": null,
       "args": null,
@@ -197,9 +212,9 @@ v14 = {
   ],
   "storageKey": null
 },
-v15 = [
-  (v2/*: any*/),
-  (v13/*: any*/)
+v16 = [
+  (v3/*: any*/),
+  (v2/*: any*/)
 ];
 return {
   "fragment": {
@@ -226,6 +241,7 @@ return {
           (v9/*: any*/),
           (v10/*: any*/),
           (v11/*: any*/),
+          (v12/*: any*/),
           {
             "alias": null,
             "args": null,
@@ -233,7 +249,19 @@ return {
             "kind": "LinkedField",
             "name": "course",
             "plural": false,
-            "selections": (v12/*: any*/),
+            "selections": (v13/*: any*/),
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "concreteType": "MenuItem",
+            "kind": "LinkedField",
+            "name": "menuItems",
+            "plural": true,
+            "selections": [
+              (v14/*: any*/)
+            ],
             "storageKey": null
           },
           {
@@ -243,10 +271,10 @@ return {
             "kind": "LinkedField",
             "name": "season",
             "plural": false,
-            "selections": (v12/*: any*/),
+            "selections": (v13/*: any*/),
             "storageKey": null
           },
-          (v14/*: any*/)
+          (v15/*: any*/)
         ],
         "storageKey": null
       }
@@ -278,6 +306,7 @@ return {
           (v9/*: any*/),
           (v10/*: any*/),
           (v11/*: any*/),
+          (v12/*: any*/),
           {
             "alias": null,
             "args": null,
@@ -285,7 +314,20 @@ return {
             "kind": "LinkedField",
             "name": "course",
             "plural": false,
-            "selections": (v15/*: any*/),
+            "selections": (v16/*: any*/),
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "concreteType": "MenuItem",
+            "kind": "LinkedField",
+            "name": "menuItems",
+            "plural": true,
+            "selections": [
+              (v14/*: any*/),
+              (v2/*: any*/)
+            ],
             "storageKey": null
           },
           {
@@ -295,27 +337,26 @@ return {
             "kind": "LinkedField",
             "name": "season",
             "plural": false,
-            "selections": (v15/*: any*/),
+            "selections": (v16/*: any*/),
             "storageKey": null
           },
-          (v14/*: any*/),
-          (v13/*: any*/)
+          (v15/*: any*/)
         ],
         "storageKey": null
       }
     ]
   },
   "params": {
-    "cacheID": "c54aa329cd811401072de3f548e2816d",
+    "cacheID": "0b76c50004fee1efdc0249681541a217",
     "id": null,
     "metadata": {},
     "name": "RecipeQuery",
     "operationKind": "query",
-    "text": "query RecipeQuery(\n  $id: ID!\n) {\n  recipe(id: $id) {\n    name\n    characteristic\n    vegetarian\n    cookingTime\n    comment\n    databaseId\n    bookNumber\n    pageNumber\n    ingredients\n    preparation\n    course {\n      name\n      id\n    }\n    season {\n      name\n      id\n    }\n    recipePhotos {\n      id\n      urlLarge1x\n      urlLarge2x\n    }\n    id\n  }\n}\n"
+    "text": "query RecipeQuery(\n  $id: ID!\n) {\n  recipe(id: $id) {\n    id\n    name\n    characteristic\n    vegetarian\n    cookingTime\n    comment\n    databaseId\n    bookNumber\n    pageNumber\n    ingredients\n    preparation\n    course {\n      name\n      id\n    }\n    menuItems {\n      day\n      id\n    }\n    season {\n      name\n      id\n    }\n    recipePhotos {\n      id\n      urlLarge1x\n      urlLarge2x\n    }\n  }\n}\n"
   }
 };
 })();
 // prettier-ignore
-(node/*: any*/).hash = 'd76799f3b40fffe67dd36a9892769eb6';
+(node/*: any*/).hash = '3901aa3816979d88d72751082259880e';
 
 module.exports = node;
